@@ -1,0 +1,5 @@
+.idea/
+obj/
+src/eshop-microservices/eshop-microservices.http
+src/eshop-microservices/appsettings.Development.json
+src/eshop-microservices/appsettings.json
