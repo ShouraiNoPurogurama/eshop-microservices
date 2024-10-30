@@ -4,3 +4,9 @@
     build:
       context: .
       dockerfile: eshop-microservices/Dockerfile
+
+  catalog.api:
+    image: catalog.api
+    build:
+      context: .
+      dockerfile: Services/Catalog/Catalog.API/Dockerfile

@@ -1,4 +1,4 @@
-namespace eshop_microservices;
+namespace Catalog.API;
 
 public class WeatherForecast
 {

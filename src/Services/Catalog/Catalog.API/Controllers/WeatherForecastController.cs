@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace eshop_microservices.Controllers;
+namespace Catalog.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
