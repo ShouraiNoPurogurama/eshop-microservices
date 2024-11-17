@@ -1,12 +1,29 @@
-﻿services:
-  eshop-microservices:
-    image: eshop-microservices
-    build:
-      context: .
-      dockerfile: eshop-microservices/Dockerfile
+﻿name: eshop-microservices
+services:
+#  eshop-microservices:
+#    image: eshop-microservices
+#    build:
+#      context: .
+#      dockerfile: Services/Catalog/Catalog.API/Dockerfile
+#
+#  catalog.api:
+#    image: catalog.api
+#    build:
+#      context: .
+#      dockerfile: Services/Catalog/Catalog.API/Dockerfile
+  
+  catalogdb:
+    image: postgres
+    container_name: catalogdb
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_DB=CatalogDb
+    restart: always
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_catalog:/var/lib/postgresql/data/
 
-  catalog.api:
-    image: catalog.api
-    build:
-      context: .
-      dockerfile: Services/Catalog/Catalog.API/Dockerfile
+volumes:
+  postgres_catalog:
