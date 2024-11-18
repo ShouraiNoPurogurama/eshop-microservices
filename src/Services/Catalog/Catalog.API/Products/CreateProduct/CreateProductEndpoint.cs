@@ -23,6 +23,7 @@ public class CreateProductEndpoint : ICarterModule
                 var response = result.Adapt<CreateProductResponse>();
                 return Results.Created($"/products/{response.Id}", response);
             })
+            .WithName("CreateProduct")
             .Produces<CreateProductResponse>()
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status400BadRequest)
