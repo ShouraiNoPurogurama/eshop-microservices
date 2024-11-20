@@ -4,7 +4,7 @@ public record GetProductsByCategoryQuery(string Category) : IQuery<GetProductsBy
 
 public record GetProductsByCategoryResult(IEnumerable<Product> Products);
 
-public class GetProductsByCategoryHandler(IDocumentSession session, ILogger<GetProductsByCategoryHandler> logger)
+public class GetProductsByCategoryHandler(IDocumentSession session)
     : IQueryHandler<GetProductsByCategoryQuery, GetProductsByCategoryResult>
 {
 
