@@ -1,16 +1,24 @@
-﻿name: eshop-microservices
+name: eshop-microservices
 services:
-#  eshop-microservices:
-#    image: eshop-microservices
-#    build:
-#      context: .
-#      dockerfile: Services/Catalog/Catalog.API/Dockerfile
-#
-#  catalog.api:
-#    image: catalog.api
-#    build:
-#      context: .
-#      dockerfile: Services/Catalog/Catalog.API/Dockerfile
+  catalog.api:
+    image: catalog.api
+    container_name: catalog.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ConnectionStrings__Database=Server=catalogdb;Port=5432;Database=CatalogDb;User Id=postgres;Password=12345;TrustServerCertificate=True;Include Error Detail=true
+    depends_on:
+      - catalogdb
+    ports:
+      - "6000:8080" #Any request to the port 6000 of the host machine will be forwarded to the container's port 8080
+      - "6060:8081" #Any request to the port 6000 of the host machine will be forwarded to the container's port 8081
+    build:
+      context: .
+      dockerfile: Services/Catalog/Catalog.API/Dockerfile
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
   
   catalogdb:
     image: postgres
@@ -27,3 +35,4 @@ services:
 
 volumes:
   postgres_catalog:
+
