@@ -5,20 +5,24 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <UserSecretsId>9624ce0f-a43a-44ca-962d-4b65aafb9b17</UserSecretsId>
+        <DockerfileContext>..\..\..</DockerfileContext>
+        <DockerComposeProjectPath>..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
     </PropertyGroup>
-
-    <ItemGroup>
-      <Content Include="..\..\..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
-    </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\BuildingBlocks\BuildingBlocks\BuildingBlocks.csproj" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="8.0.2" />
+      <PackageReference Include="AspNetCore.HealthChecks.Redis" Version="8.0.1" />
+      <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.1" />
       <PackageReference Include="Carter" Version="8.2.1" />
+      <PackageReference Include="Marten" Version="7.33.0" />
+      <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.11" />
+      <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
+      <PackageReference Include="Scrutor" Version="5.0.2" />
     </ItemGroup>
 
 </Project>

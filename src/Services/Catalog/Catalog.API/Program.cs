@@ -1,3 +1,4 @@
+using BuildingBlocks.Exceptions.Handler;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
@@ -13,7 +14,7 @@ builder.Services.AddMediatR(config =>
 });
 
 builder.Services.AddMarten(opts => { opts.Connection(builder.Configuration.GetConnectionString("Database")!); })
-    .UseLightweightSessions();
+    .UseLightweightSessions(); //Use lightweight sessions by default for the injected IDocumentSession objects. Equivalent to IDocumentStore. LightweightSession();
 
 if (builder.Environment.IsDevelopment())
 {

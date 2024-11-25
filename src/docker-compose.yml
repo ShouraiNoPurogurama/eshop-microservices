@@ -1,3 +1,5 @@
+version: '3.4'
+ 
 name: eshop-microservices
 services:
   catalog.api:
@@ -32,13 +34,53 @@ services:
       - "5433:5432"
     volumes:
       - postgres_catalog:/var/lib/postgresql/data/
-
-volumes:
-  postgres_catalog:
-
-
+    
   basket.api:
-    image: basket.api
+    image: ${DOCKER_REGISTRY-}basketapi
+    container_name: basket.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=12345
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ConnectionStrings__Database=Server=basketdb;Port=5432;Database=BasketDb;User Id=postgres;Password=12345;TrustServerCertificate=True;Include Error Detail=true
+      - ConnectionStrings__Redis=distributedcache:6379
+    depends_on:
+      - basketdb
+      - distributedcache
+    ports:
+      - "6001:8080"
+      - "6061:8081"
     build:
       context: .
       dockerfile: Services/Basket/Basket.API/Dockerfile
+    volumes:
+      - ~/.aspnet/https:/https:ro
+#      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+#      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+    
+  basketdb:
+    image: postgres
+    container_name: basketdb
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_DB=BasketDb
+    restart: always
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_basket:/var/lib/postgresql/data/
+    
+  distributedcache:
+    container_name: distributedcache-msa
+    image: redis
+    restart: always
+    ports:
+      - "6379:6379"
+      
+volumes:
+  postgres_catalog:
+  postgres_basket:
+
