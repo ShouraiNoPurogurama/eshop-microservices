@@ -1,5 +1,5 @@
 version: '3.4'
- 
+
 name: eshop-microservices
 services:
   catalog.api:
@@ -34,7 +34,7 @@ services:
       - "5433:5432"
     volumes:
       - postgres_catalog:/var/lib/postgresql/data/
-    
+  
   basket.api:
     image: ${DOCKER_REGISTRY-}basketapi
     container_name: basket.api
@@ -57,9 +57,9 @@ services:
       dockerfile: Services/Basket/Basket.API/Dockerfile
     volumes:
       - ~/.aspnet/https:/https:ro
-#      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-#      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
-    
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+  
   basketdb:
     image: postgres
     container_name: basketdb
@@ -72,21 +72,35 @@ services:
       - "5434:5432"
     volumes:
       - postgres_basket:/var/lib/postgresql/data/
-    
+  
   distributedcache:
     container_name: distributedcache-msa
     image: redis
     restart: always
     ports:
       - "6379:6379"
-      
+        
+  discount.grpc:
+    image: discount.grpc
+    container_name: discount.grpc
+    build:
+      context: .
+      dockerfile: Services/Discount/Discount.Grpc/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ConnectionStrings__Database=Data Source=discountdb
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=12345
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    ports:
+      - "6002:8080"
+      - "6062:8081"
+    volumes:
+      - ~/.aspnet/https:/https:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
 volumes:
   postgres_catalog:
   postgres_basket:
 
-
-  discount.grpc:
-    image: discount.grpc
-    build:
-      context: .
-      dockerfile: Services/Discount/Discount.Grpc/Dockerfile
