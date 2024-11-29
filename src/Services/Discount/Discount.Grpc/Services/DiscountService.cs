@@ -54,7 +54,7 @@ public class DiscountService(DiscountContext dbContext, ILogger<DiscountService>
 
     public override async Task<DeleteDiscountResponse> DeleteDiscount(DeleteDiscountRequest request, ServerCallContext context)
     {
-        var coupon = await dbContext.Coupons.FindAsync(request.ProductName)
+        var coupon = await dbContext.Coupons.FirstOrDefaultAsync(c => c.ProductName == request.ProductName)
                      ?? throw new RpcException(new Status(StatusCode.NotFound,
                          $"$Discount with Product Name={request.ProductName} is not found."));
 

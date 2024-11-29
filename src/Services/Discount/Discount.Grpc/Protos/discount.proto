@@ -14,7 +14,7 @@ service DiscountProtoService {
 }
 
 message GetDiscountRequest {
-  string product_name = 1;
+  string productName = 1;
 }
 
 message CouponModel {

@@ -46,9 +46,11 @@ services:
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
       - ConnectionStrings__Database=Server=basketdb;Port=5432;Database=BasketDb;User Id=postgres;Password=12345;TrustServerCertificate=True;Include Error Detail=true
       - ConnectionStrings__Redis=distributedcache:6379
+      - GrpcSettings__DiscountUri=https://discount.grpc:8081
     depends_on:
       - basketdb
       - distributedcache
+      - discount.grpc
     ports:
       - "6001:8080"
       - "6061:8081"
@@ -100,6 +102,7 @@ services:
       - ~/.aspnet/https:/https:ro
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      
 volumes:
   postgres_catalog:
   postgres_basket:
