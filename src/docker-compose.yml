@@ -107,3 +107,15 @@ volumes:
   postgres_catalog:
   postgres_basket:
 
+
+  ordering.api:
+    image: ordering.api
+    build:
+      context: .
+      dockerfile: Services/Ordering/Ordering.Api/Dockerfile
+
+  ordering.api:
+    image: ordering.api
+    build:
+      context: .
+      dockerfile: Services/Ordering/Ordering.API/Dockerfile

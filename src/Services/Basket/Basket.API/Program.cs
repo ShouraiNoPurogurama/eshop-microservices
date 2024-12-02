@@ -37,7 +37,7 @@ builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(
     })
     .ConfigurePrimaryHttpMessageHandler(() =>
     {
-        var handler = new HttpClientHandler()
+        var handler = new HttpClientHandler
         {
             ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
         };
