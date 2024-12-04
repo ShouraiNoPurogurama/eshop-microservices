@@ -1,5 +1,4 @@
 using System.Reflection;
-using Ordering.Domain.Models;
 
 namespace Ordering.Infrastructure.Data;
 
