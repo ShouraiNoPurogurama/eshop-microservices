@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddApplicationServices() //Use case services
     .AddInfrastructureServices(builder.Configuration) //Database and model configuration services
-    .AddApiServices(); //Routing-related services
+    .AddApiServices(builder.Configuration); //Routing-related services
 
 var app = builder.Build();
 

@@ -4,7 +4,7 @@ namespace Ordering.Application.Orders.Queries;
 
 public record GetOrdersByNameQuery(string Name) : IQuery<GetOrdersByNameResult>;
 
-public record GetOrdersByNameResult(IEnumerable<OrderDto> Order);
+public record GetOrdersByNameResult(IEnumerable<OrderDto> Orders);
 
 public class GetOrdersByNameQueryValidator : AbstractValidator<GetOrdersByNameQuery>
 {
