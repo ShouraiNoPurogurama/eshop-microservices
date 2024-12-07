@@ -50,6 +50,9 @@ builder.Services.AddHealthChecks()
     .AddRedis(builder.Configuration.GetConnectionString("Redis")!)
     .AddNpgSql(builder.Configuration.GetConnectionString("Database")!);
 
+//Add MassTransit
+builder.Services.AddMessageBroker(builder.Configuration);
+
 var app = builder.Build();
 
 app.MapCarter();

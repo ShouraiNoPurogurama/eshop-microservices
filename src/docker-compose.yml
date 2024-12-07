@@ -119,6 +119,19 @@ services:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=SwN12345678
       
+  messagebroker:
+    container_name: messagebroker
+    hostname: ecommerce-mq
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    restart: always
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+      
+      
 volumes:
   postgres_catalog:
   postgres_basket:
