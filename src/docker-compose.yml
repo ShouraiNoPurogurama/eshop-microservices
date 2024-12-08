@@ -2,6 +2,7 @@ version: '3.4'
 
 name: eshop-microservices
 services:
+  # Catalog API Service
   catalog.api:
     image: catalog.api
     container_name: catalog.api
@@ -13,15 +14,16 @@ services:
     depends_on:
       - catalogdb
     ports:
-      - "6000:8080" #Any request to the port 6000 of the host machine will be forwarded to the container's port 8080
-      - "6060:8081" #Any request to the port 6000 of the host machine will be forwarded to the container's port 8081
+      - "6000:8080"
+      - "6060:8081"
     build:
       context: .
       dockerfile: Services/Catalog/Catalog.API/Dockerfile
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
-  
+
+  # Catalog Database Service
   catalogdb:
     image: postgres
     container_name: catalogdb
@@ -34,7 +36,8 @@ services:
       - "5433:5432"
     volumes:
       - postgres_catalog:/var/lib/postgresql/data/
-  
+
+  # Basket API Service
   basket.api:
     image: ${DOCKER_REGISTRY-}basketapi
     container_name: basket.api
@@ -65,7 +68,8 @@ services:
       - ~/.aspnet/https:/https:ro
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
-  
+
+  # Basket Database Service
   basketdb:
     image: postgres
     container_name: basketdb
@@ -78,14 +82,16 @@ services:
       - "5434:5432"
     volumes:
       - postgres_basket:/var/lib/postgresql/data/
-  
+
+  # Distributed Cache Service
   distributedcache:
     container_name: distributedcache-msa
     image: redis
     restart: always
     ports:
       - "6379:6379"
-        
+
+  # Discount gRPC Service
   discount.grpc:
     image: discount.grpc
     container_name: discount.grpc
@@ -107,6 +113,7 @@ services:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
 
+  # Ordering API Service
   ordering.api:
     image: ordering.api
     build:
@@ -133,7 +140,8 @@ services:
       - ~/.aspnet/https:/https:ro
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
-      
+
+  # Ordering Database Service
   orderdb:
     container_name: orderdb
     image: mcr.microsoft.com/mssql/server
@@ -143,7 +151,8 @@ services:
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=SwN12345678
-      
+
+  # RabbitMQ Message Broker Service
   messagebroker:
     container_name: messagebroker
     hostname: ecommerce-mq
@@ -155,8 +164,7 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
-      
-      
+
 volumes:
   postgres_catalog:
   postgres_basket:
