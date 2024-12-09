@@ -4,7 +4,7 @@ public record StoreBasketRequest(ShoppingCart Cart);
 
 public record StoreBasketResponse(string UserName);
 
-public class StoreBasketEndpoint : ICarterModule
+public class StoreBasketEndpoint(ILogger<StoreBasketEndpoint> logger) : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {

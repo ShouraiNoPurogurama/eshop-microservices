@@ -8,7 +8,7 @@ public interface ICatalogService
     Task<GetProductsResponse> GetProducts(int? pageNumber = 1, int? pageSize = 10);
 
     [Get("/catalog-service/products/{id}")]
-    Task<GetProductsResponse> GetProduct(Guid id);
+    Task<GetProductByIdResponse> GetProduct(Guid id);
 
     [Get("/catalog-service/products/category/{category}")]
     Task<GetProductByCategoryResponse> GetProductsByCategory(string category);

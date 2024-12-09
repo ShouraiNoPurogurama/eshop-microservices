@@ -11,10 +11,7 @@ public class ProductModel //Product Entity
 }
 
 //Wrapper classes
-public record GetProductsResponse(IEnumerable<ProductModel> Products)
-{
-    public ProductModel Product { get; set; }
-}
+public record GetProductsResponse(IEnumerable<ProductModel> Products);
 
 public record GetProductByCategoryResponse(IEnumerable<ProductModel> Products);
 
