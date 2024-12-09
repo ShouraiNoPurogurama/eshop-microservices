@@ -10,6 +10,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=12345
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
       - ConnectionStrings__Database=Server=catalogdb;Port=5432;Database=CatalogDb;User Id=postgres;Password=12345;TrustServerCertificate=True;Include Error Detail=true
     depends_on:
       - catalogdb
@@ -20,8 +22,7 @@ services:
       context: .
       dockerfile: Services/Catalog/Catalog.API/Dockerfile
     volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - ~/.aspnet/https:/https:ro
 
   # Catalog Database Service
   catalogdb:
@@ -116,6 +117,7 @@ services:
   # Ordering API Service
   ordering.api:
     image: ordering.api
+    container_name: ordering.api
     build:
       context: .
       dockerfile: Services/Ordering/Ordering.API/Dockerfile
@@ -132,7 +134,7 @@ services:
       - MessageBroker__UserName=guest
       - MessageBroker__Password=guest
       - FeatureManagement__OrderFulfillment=false
-      - ConnectionStrings__Database=Server=orderdb;Database=OrderDb;User Id=sa;Password=12345;Encrypt=False;TrustServerCertificate=True
+      - ConnectionStrings__Database=Server=orderdb;Database=OrderDb;User Id=sa;Password=SwN12345678;Encrypt=False;TrustServerCertificate=True
     depends_on:
       - orderdb
       - messagebroker
@@ -165,6 +167,33 @@ services:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
 
+  yarpapigateway:
+    container_name: yarpapigateway
+    image: yarpapigateway
+    build:
+      context: .
+      dockerfile: ApiGateways/YarpApiGateway/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=12345
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    ports:
+      - "6004:8080"
+      - "6064:8081"
+    volumes:
+      - ~/.aspnet/https:/https:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+
+  shopping.web:
+    image: shopping.web
+    build:
+      context: .
+      dockerfile: WebApps/Shopping.Web/Dockerfile
+
 volumes:
   postgres_catalog:
   postgres_basket:
+

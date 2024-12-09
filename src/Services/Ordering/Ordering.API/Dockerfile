@@ -17,6 +17,7 @@ RUN dotnet restore "./Services/Ordering/Ordering.API/Ordering.API.csproj"
 COPY . .
 WORKDIR "/src/Services/Ordering/Ordering.API"
 RUN dotnet build "./Ordering.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet ef database update
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
