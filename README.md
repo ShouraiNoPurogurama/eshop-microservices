@@ -4,6 +4,11 @@ See the overall picture of **implementations on microservices with .net tools** 
 
 There is a couple of microservices which implemented **e-commerce** modules over **Catalog, Basket, Discount** and **Ordering** microservices with **NoSQL (DocumentDb, Redis)** and **Relational databases (PostgreSQL, Sql Server)** with communicating over **RabbitMQ Event Driven Communication** and using **Yarp API Gateway**.
 
+## Contributors:
+- **Truong Nhat Anh** ([ShouraiNoPurogurama](https://github.com/ShouraiNoPurogurama)) - Sole developer of the application, responsible for the full implementation.
+
+- **Mehmet Ozkaya** ([mehmetozkaya](https://github.com/mehmetozkaya)) - Provided initial groundwork and mentorship.
+
 
 ## Whats Including In This Repository
 I have implemented below **features over the run-aspnetcore-microservices repository**.
@@ -84,3 +89,5 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
 5. Launch **Shopping Web UI -> https://localhost:6065** in your browser to view index page. You can use Web project in order to **call microservices over Yarp API Gateway**. When you **checkout the basket** you can follow **queue record on RabbitMQ dashboard**.
 
 ![mainscreen2](https://user-images.githubusercontent.com/1147445/81381837-08226000-9116-11ea-9489-82645b8dbfc4.png)
+
+**Special appreciation to Mehmet Ozkaya** - **Initial work** - [mehmetozkaya](https://github.com/mehmetozkaya)
