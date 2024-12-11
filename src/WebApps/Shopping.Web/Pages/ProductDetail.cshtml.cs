@@ -6,9 +6,9 @@ namespace Shopping.Web.Pages
         ILogger<ProductDetailModel> logger)
         : PageModel
     {
-        public ProductModel Product { get; set; } = default;
+        public ProductModel Product { get; set; } = default!;
 
-        [BindProperty] public string Color { get; set; } = default;
+        [BindProperty] public string Color { get; set; } = default!;
 
         [BindProperty] public int Quantity { get; set; } = default!;
 
